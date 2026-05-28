@@ -159,6 +159,7 @@
     position: fixed;
     z-index: 999;
     white-space: nowrap;
+    pointer-events: none;
     /* transition added by JS after initial placement */
   }
   #noBtn:hover { border-color: rgba(253,246,236,0.8); }
@@ -357,6 +358,7 @@ function initNoBtn() {
   // Temporarily make it static to read natural position
   noBtn.style.position = 'static';
   noBtn.style.transition = 'none';
+  noBtn.style.pointerEvents = 'auto';
 
   // Must be visible to measure
   noBtn.style.opacity = '1';
@@ -370,6 +372,7 @@ function initNoBtn() {
   noBtn.style.position = 'fixed';
   noBtn.style.left = noX + 'px';
   noBtn.style.top  = noY + 'px';
+  noBtn.style.pointerEvents = 'none';
 
   // Enable smooth transitions only after placement
   requestAnimationFrame(() => {
