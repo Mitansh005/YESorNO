@@ -160,6 +160,7 @@
     z-index: 999;
     white-space: nowrap;
     pointer-events: none;
+    animation: fadeUp 4s ease forwards;
     /* transition added by JS after initial placement */
   }
   #noBtn:hover { border-color: rgba(253,246,236,0.8); }
@@ -359,9 +360,6 @@ function initNoBtn() {
   noBtn.style.position = 'static';
   noBtn.style.transition = 'none';
   noBtn.style.pointerEvents = 'auto';
-
-  // Must be visible to measure
-  noBtn.style.opacity = '1';
 
   // Read where it sits in the flow
   const r = noBtn.getBoundingClientRect();
