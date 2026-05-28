@@ -135,29 +135,26 @@
     color: var(--cream);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .btn-yes {
     background: linear-gradient(135deg, var(--rose), var(--deep-rose));
     box-shadow: 0 0 40px rgba(192,57,43,0.5), 0 0 80px rgba(192,57,43,0.2);
   }
-  .btn-yes:hover {
+
+  .btn-yes:hover, .btn-no:hover {
     transform: scale(1.07);
     box-shadow: 0 0 60px rgba(192,57,43,0.7), 0 0 100px rgba(192,57,43,0.3);
   }
-  .btn-yes:active { transform: scale(0.97); }
 
-  /* ── NO BUTTON (styled like Yes) ── */
-  .btn-no {
-    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
-    box-shadow: 0 0 40px rgba(192,57,43,0.5), 0 0 80px rgba(192,57,43,0.2);
+  .btn-yes:active, .btn-no:active { 
+    transform: scale(0.97); 
+  }
+
+  /* ── NO BUTTON (moves around) ── */
+  #noBtn {
+    position: fixed;
+    z-index: 999;
+    white-space: nowrap;
     pointer-events: none;
   }
-  .btn-no:hover {
-    transform: scale(1.07);
-    box-shadow: 0 0 60px rgba(192,57,43,0.7), 0 0 100px rgba(192,57,43,0.3);
-  }
-  .btn-no:active { transform: scale(0.97); }
 
   /* ── PAGE 2 ── */
   .celebration-hearts {
@@ -339,8 +336,8 @@ function startCelebration() {
 })();
 
 /* ────────────────────────────────────────────
-   NO BUTTON — reads its natural DOM position,
-   then floats as position:fixed from there
+   NO BUTTON — stays in place, then moves away
+   when cursor approaches
 ──────────────────────────────────────────── */
 const noBtn = document.getElementById('noBtn');
 
@@ -349,12 +346,12 @@ let noX = 0, noY = 0;
 let noReady = false;
 
 function initNoBtn() {
-  // Just read where it currently is and prepare for fixed positioning
+  // Read where it sits in the button row
   const r = noBtn.getBoundingClientRect();
   noX = r.left;
   noY = r.top;
 
-  // Convert to fixed positioning but keep animations running
+  // Convert to fixed positioning
   noBtn.style.position = 'fixed';
   noBtn.style.left = noX + 'px';
   noBtn.style.top  = noY + 'px';
@@ -367,8 +364,8 @@ function initNoBtn() {
   });
 }
 
-// Wait for animations to complete before making button fixed
-window.addEventListener('load', () => setTimeout(initNoBtn, 4200));
+// Initialize after page loads
+window.addEventListener('load', () => setTimeout(initNoBtn, 200));
 
 /* ── ESCAPE LOGIC ── */
 function runAway() {
