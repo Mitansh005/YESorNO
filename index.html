@@ -124,7 +124,7 @@
     opacity: 0;
   }
 
-  .btn-yes, .btn-no {
+  .btn-yes {
     font-family: 'Playfair Display', serif;
     font-size: 1.35rem;
     font-weight: 700;
@@ -139,21 +139,44 @@
     box-shadow: 0 0 40px rgba(192,57,43,0.5), 0 0 80px rgba(192,57,43,0.2);
   }
 
-  .btn-yes:hover, .btn-no:hover {
+  .btn-yes:hover {
     transform: scale(1.07);
     box-shadow: 0 0 60px rgba(192,57,43,0.7), 0 0 100px rgba(192,57,43,0.3);
   }
 
-  .btn-yes:active, .btn-no:active { 
+  .btn-yes:active { 
     transform: scale(0.97); 
   }
 
   /* ── NO BUTTON (moves around) ── */
   #noBtn {
-    position: fixed;
-    z-index: 999;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    padding: 1rem 3.2rem;
+    border: none;
+    border-radius: 60px;
+    color: var(--cream);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    box-shadow: 0 0 40px rgba(192,57,43,0.5), 0 0 80px rgba(192,57,43,0.2);
+    position: static;
+    z-index: 20;
     white-space: nowrap;
     pointer-events: none;
+    opacity: 0;
+    animation: fadeUp 4s ease forwards;
+  }
+
+  #noBtn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 60px rgba(192,57,43,0.7), 0 0 100px rgba(192,57,43,0.3);
+  }
+
+  #noBtn:active { 
+    transform: scale(0.97); 
   }
 
   /* ── PAGE 2 ── */
@@ -229,7 +252,7 @@
   <p class="sub-question">Every heartbeat I have belongs to you — and you'll soon know exactly what that means.</p>
   <div class="btn-row" id="btnRow">
     <button class="btn-yes" onclick="sayYes()">Yes, Forever ♥</button>
-    <button class="btn-no" id="noBtn">No</button>
+    <button id="noBtn">No</button>
   </div>
 </div>
 
@@ -356,6 +379,7 @@ function initNoBtn() {
   noBtn.style.left = noX + 'px';
   noBtn.style.top  = noY + 'px';
   noBtn.style.pointerEvents = 'none';
+  noBtn.style.opacity = '1';
 
   // Enable smooth transitions for the escape movement
   requestAnimationFrame(() => {
@@ -364,8 +388,8 @@ function initNoBtn() {
   });
 }
 
-// Initialize after page loads
-window.addEventListener('load', () => setTimeout(initNoBtn, 200));
+// Initialize after page loads and animation completes
+window.addEventListener('load', () => setTimeout(initNoBtn, 4200));
 
 /* ── ESCAPE LOGIC ── */
 function runAway() {
