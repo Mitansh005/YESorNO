@@ -160,8 +160,8 @@
     z-index: 999;
     white-space: nowrap;
     pointer-events: none;
+    opacity: 0;
     animation: fadeUp 4s ease forwards;
-    /* transition added by JS after initial placement */
   }
   #noBtn:hover { border-color: rgba(253,246,236,0.8); }
 
@@ -238,9 +238,9 @@
   <p class="sub-question">Every heartbeat I have belongs to you — and you'll soon know exactly what that means.</p>
   <div class="btn-row" id="btnRow">
     <button class="btn-yes" onclick="sayYes()">Yes, Forever ♥</button>
-    <!-- No button is rendered here so JS can read its natural position -->
-    <button id="noBtn">No</button>
   </div>
+  <!-- No button placed outside btn-row so it isn't affected by btn-row opacity -->
+  <button id="noBtn">No</button>
 </div>
 
 <!-- PAGE 2 -->
@@ -356,31 +356,26 @@ let noX = 0, noY = 0;
 let noReady = false;
 
 function initNoBtn() {
-  // Temporarily make it static to read natural position
-  noBtn.style.position = 'static';
-  noBtn.style.transition = 'none';
-  noBtn.style.pointerEvents = 'auto';
-
-  // Read where it sits in the flow
+  // Just read where it currently is and prepare for fixed positioning
   const r = noBtn.getBoundingClientRect();
   noX = r.left;
   noY = r.top;
 
-  // Now pin it there as fixed
+  // Convert to fixed positioning but keep animations running
   noBtn.style.position = 'fixed';
   noBtn.style.left = noX + 'px';
   noBtn.style.top  = noY + 'px';
   noBtn.style.pointerEvents = 'none';
 
-  // Enable smooth transitions only after placement
+  // Enable smooth transitions for the escape movement
   requestAnimationFrame(() => {
     noBtn.style.transition = 'left 0.25s cubic-bezier(0.34,1.56,0.64,1), top 0.25s cubic-bezier(0.34,1.56,0.64,1)';
     noReady = true;
   });
 }
 
-// Wait for fonts + layout to settle
-window.addEventListener('load', () => setTimeout(initNoBtn, 200));
+// Wait for animations to complete before making button fixed
+window.addEventListener('load', () => setTimeout(initNoBtn, 4200));
 
 /* ── ESCAPE LOGIC ── */
 function runAway() {
